@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Losowanie słów</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Raleway', sans-serif;
+            display: flex;
+            height: 100vh;
+            background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .left, .right {
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .left {
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80vh;
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            resize: none;
+            outline: none;
+        }
+
+        .right {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .frame {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px 150px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            background: linear-gradient(to right, #feda75, #fa7e1e, #d62976);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .result {
+            margin-top: 25px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+</head>
+<body>
+    <div class="left">
+        <textarea id="wordList" placeholder="Wklej tutaj listę z danymi do losowania"></textarea>
+    </div>
+    <div class="right">
+        <div class="frame">
+            <button onclick="drawWord()">Losuj</button>
+            <div class="result" id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        const jsConfetti = new JSConfetti();
+
+        function drawWord() {
+            const textArea = document.getElementById('wordList');
+            const words = textArea.value.split('\n').map(w => w.trim()).filter(w => w);
+            if (words.length === 0) {
+                document.getElementById('result').textContent = 'Brak danych do wylosowania.';
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * words.length);
+            const selectedWord = words[randomIndex];
+            document.getElementById('result').textContent = selectedWord;
+
+            jsConfetti.addConfetti({
+                emojis: ['🩷', '💜', '✨', '🎁'],
+                emojiSize: 50,
+                confettiNumber: 50,
+            });
+        }
+    </script>
+</body>
+</html>
